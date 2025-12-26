@@ -1,0 +1,7 @@
+asgiref           # Latest stable ASGI reference implementation :contentReference[oaicite:0]{index=0}
+dj-database-url   # Latest stable dj-database-url release :contentReference[oaicite:1]{index=1}
+Django           # Current latest Django version :contentReference[oaicite:2]{index=2}
+Gunicorn         # Latest Gunicorn WSGI HTTP server :contentReference[oaicite:3]{index=3}
+psycopg2-binary    # Latest binary wheel available :contentReference[oaicite:4]{index=4}
+sqlparse          # Latest sqlparse release :contentReference[oaicite:5]{index=5}
+typing-extensions   # Latest typing-extensions version :contentReference[oaicite:6]{index=6}
