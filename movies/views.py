@@ -1,16 +1,27 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Movie, Theatre, Seat, Booking
+from .models import Movie, Theatre, Seat, Booking, Genre, Language
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 
 def movie_list(request):
     search_query = request.GET.get('search')
-    if search_query:
-        Movie.objects.filter(name__icontains=search_query)
-    else:
-        movies = Movie.objects.all()
+    language = request.GET.get('language')
+    selected_genres = request.GET.getlist('genre')
 
-    return render(request, 'movies/movies_list.html', {'movies': movies})
+    movies = Movie.objects.all()
+
+    if search_query:
+        movies = movies.filter(name__icontains=search_query)
+
+    if language:
+        movies = movies.filter(language__name__iexact=language)
+    
+    if selected_genres:
+        movies = movies.filter(genre__name__in=selected_genres)
+
+    movies = movies.distinct()
+
+    return render(request, 'movies/movies_list.html', {'movies': movies, 'genres': Genre.objects.all(), 'languages': Language.objects.all(), 'selected_genres': selected_genres})
 
 def theatre_list(request, movie_id):
     movie = get_object_or_404(Movie, id=movie_id)

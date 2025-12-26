@@ -1,12 +1,27 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+class Genre(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
+    
+class Language(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
+
 class Movie(models.Model):
     name=models.CharField(max_length=255)
     image=models.ImageField(upload_to="movies/")
     rating=models.DecimalField(max_digits=3,decimal_places=1)
     cast=models.TextField()
     description=models.TextField(blank=True,null=True)
+
+    genre = models.ManyToManyField(Genre, related_name='mvoies')
+    language = models.ForeignKey(Language, on_delete=models.CASCADE, related_name="movies")
 
     def __str__(self):
         return self.name
