@@ -55,7 +55,13 @@ MIDDLEWARE = [
 
 AUTH_USER_MODEL = "auth.User"
 # AUTH_USER_MODEL = "movies.Booking"
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'sonawanemanav0@gmail.com'
+EMAIL_HOST_PASSWORD = 'hyvc wduw bhpa aqki'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 ROOT_URLCONF = 'BookMyShow.urls'
 LOGIN_URL = '/login/'
 MEDIA_URL = '/media/'

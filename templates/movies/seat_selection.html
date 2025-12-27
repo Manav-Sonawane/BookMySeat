@@ -42,22 +42,15 @@
             {% csrf_token %}
             <div class="d-flex justify-content-center flex-wrap mb-4">
               {% for seat in seats %}
-              <div class="seat {% if seat.is_booked %}sold{% endif %}">
-                {% if not seat.is_booked %}
+              <label class="seat {% if seat.is_booked %}sold{% endif %}">
                 <input
                   type="checkbox"
                   name="seats"
                   value="{{ seat.id }}"
-                  class="d-none"
-                  id="seat-{{ seat.id }}"
+                  {%if seat.is_booked%}disabled{%endif%}
                 />
-                <label
-                  for="seat-{{ seat.id }}"
-                  class="w-100 h-100 d-flex align-items-center justify-content-center"
-                  >{{ seat.seat_number }}</label
-                >
-                {% else %} {{ seat.seat_number }} {% endif %}
-              </div>
+                <span>{{seat.seat_number}}</span>
+              </label>
               {% endfor %}
             </div>
 
@@ -94,28 +87,53 @@
     font-family: Arial, sans-serif;
   }
   .seat {
-    width: 30px;
-    height: 30px;
-    border: 1px solid #28a745;
-    margin: 3px;
-    text-align: center;
-    line-height: 30px;
+    display: inline-block;
+    width: 36px;
+    height: 36px;
+    margin: 5px;
+    border-radius: 6px;
+    border: 2px solid #28a745;
     cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s, color 0.3s;
+    user-select: none;
   }
-  .seat:hover {
+
+  .seat input {
+    display: none;
+  }
+
+  .seat span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    transition: background-color 0.2s, color 0.2s;
+  }
+
+  /* AVAILABLE hover */
+  .seat:not(.sold):hover span {
+    background-color: #e6f4ea;
+  }
+
+  /* SELECTED */
+  .seat input:checked + span {
     background-color: #28a745;
     color: white;
+    border-radius: 4px;
   }
-  .seat.selected {
-    background-color: #28a745;
-    color: white;
-  }
-  .seat.sold {
+
+  /* SOLD / BOOKED */
+  .seat.sold span {
     background-color: #ccc;
+    color: #777;
     cursor: not-allowed;
   }
+
+  .seat.sold {
+    border-color: #aaa;
+    cursor: not-allowed;
+  }
+
   .screen {
     margin: 20px 0;
     background-color: #ccc;
