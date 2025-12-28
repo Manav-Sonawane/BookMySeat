@@ -13,7 +13,7 @@ class GenreAdmin(admin.ModelAdmin):
 
 @admin.register(Movie)
 class MovieAdmin(admin.ModelAdmin):
-    list_display = ['name', 'rating', 'cast', 'description']
+    list_display = ['name', 'rating', 'cast', 'description', 'trailer_url']
     list_filter = ['language', 'genre']
     search_fields = ['name',]
     filter_horizontal = ('genre',)

@@ -20,8 +20,10 @@ class Movie(models.Model):
     cast=models.TextField()
     description=models.TextField(blank=True,null=True)
 
-    genre = models.ManyToManyField(Genre, related_name='mvoies')
-    language = models.ForeignKey(Language, on_delete=models.CASCADE, related_name="movies")
+    trailer_url=models.URLField(blank=True, null=True)
+
+    genre=models.ManyToManyField(Genre, related_name='mvoies')
+    language=models.ForeignKey(Language, on_delete=models.CASCADE, related_name="movies")
 
     def __str__(self):
         return self.name
