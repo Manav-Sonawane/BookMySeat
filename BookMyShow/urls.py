@@ -24,6 +24,7 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('', include('users.urls')),
     path('movies/', include('movies.urls')),
+    path('payments/', include('payments.urls')),
 ]
 
 if settings.DEBUG:

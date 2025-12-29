@@ -20,7 +20,7 @@ class MovieAdmin(admin.ModelAdmin):
 
 @admin.register(Theatre)
 class TheatreAdmin(admin.ModelAdmin):
-    list_display = ['name', 'movie', 'time']
+    list_display = ['name', 'movie', 'time', 'seat_price']
 
 @admin.register(Seat)
 class SeatAdmin(admin.ModelAdmin):

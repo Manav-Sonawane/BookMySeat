@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users',
     'movies',
+    'payments',
 ]
 
 MIDDLEWARE = [
@@ -66,6 +67,8 @@ ROOT_URLCONF = 'BookMyShow.urls'
 LOGIN_URL = '/login/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+RAZOR_KEY_ID = 'rzp_test_RxIBKQQcQ08iuP'
+RAZOR_KEY_SECRET = 'J7Et61JXiduQrVmXbQ47DZti'
 
 TEMPLATES = [
     {

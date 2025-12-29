@@ -4,7 +4,7 @@
   {% for theatre in theatres %}
   <li>
     <strong>{{ theatre.name }}</strong>{{ theatre.time }}
-    <a href="{% url 'seat_list' theatre.id %}">View Seats</a>
+    <a href="{% url 'movies:seat_list' theatre.id %}">View Seats</a>
   </li>
   {% endfor %}
 </ul>

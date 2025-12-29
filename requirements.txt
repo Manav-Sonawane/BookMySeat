@@ -5,3 +5,4 @@ Gunicorn         # Latest Gunicorn WSGI HTTP server :contentReference[oaicite:3]
 psycopg2-binary    # Latest binary wheel available :contentReference[oaicite:4]{index=4}
 sqlparse          # Latest sqlparse release :contentReference[oaicite:5]{index=5}
 typing-extensions   # Latest typing-extensions version :contentReference[oaicite:6]{index=6}
+razorpay

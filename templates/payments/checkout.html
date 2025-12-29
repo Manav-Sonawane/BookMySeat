@@ -1,0 +1,27 @@
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+  var options = {
+    key: "{{ key }}",
+    amount: "{{ amount }}",
+    order_id: "{{ order_id }}",
+    handler: function (response) {
+      fetch("/payments/verify/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": "{{ csrf_token }}",
+        },
+        body: JSON.stringify(response),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.redirect_url) {
+            window.location.href = data.redirect_url;
+          }
+        });
+    },
+  };
+
+  new Razorpay(options).open();
+</script>
