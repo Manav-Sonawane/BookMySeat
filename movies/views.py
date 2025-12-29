@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Movie, Theatre, Seat, Booking, Genre, Language
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
-from .utils import send_booking_confirmation
+# from .utils import send_booking_confirmation
 
 def movie_list(request):
     search_query = request.GET.get('search')
