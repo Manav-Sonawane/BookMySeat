@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 class Genre(models.Model):
     name = models.CharField(max_length=50, unique=True)
@@ -41,6 +42,22 @@ class Seat(models.Model):
     theatre=models.ForeignKey(Theatre, on_delete=models.CASCADE, related_name='seats')
     seat_number=models.CharField(max_length=10)
     is_booked=models.BooleanField(default=False)
+
+    reserved_by = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    reserved_until = models.DateTimeField(null=True, blank=True)
+
+    def is_reserved(self):
+        return self.reserved_until and self.reserved_until > timezone.now()
+    
+    def reserve(self, user, minutes=5):
+        self.reserved_by = user
+        self.reserved_until = timezone.now() + timezone.timedelta(minutes=minutes)
+        self.save(update_fields=['reserved_by', 'reserved_until'])
+
+    def release(self):
+        self.reserved_by = None
+        self.reserved_until = None
+        self.save(update_fields=['reserved_by', 'reserved_until'])
 
     def __str__(self):
         return f'{self.seat_number} in {self.theatre.name}'

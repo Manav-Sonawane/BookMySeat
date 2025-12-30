@@ -47,7 +47,7 @@
                   type="checkbox"
                   name="seats"
                   value="{{ seat.id }}"
-                  {%if seat.is_booked%}disabled{%endif%}
+                  {% if seat.is_booked or seat.is_reserved %}disabled{%endif%}
                 />
                 <span>{{seat.seat_number}}</span>
               </label>

@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Movie, Theatre, Seat, Booking, Genre, Language
 from django.contrib.auth.decorators import login_required
-from django.db import IntegrityError
+from django.db import IntegrityError, transaction
+from .utils import release_expired_reservations
 # from .utils import send_booking_confirmation
 
 def movie_list(request):
@@ -41,6 +42,7 @@ def theatre_list(request, movie_id):
 def booking_seats(request, theatre_id):
     theatre = get_object_or_404(Theatre, id=theatre_id)
     seats = Seat.objects.filter(theatre=theatre,).order_by('seat_number')
+    release_expired_reservations()
 
     if request.method == 'POST':
         selected_Seats = request.POST.getlist('seats')
@@ -50,17 +52,23 @@ def booking_seats(request, theatre_id):
         if not selected_Seats:
             return render(request, 'movies/seat_selection.html', {'theatre':theatre, 'seats':seats, 'error':'No seat selected'})
         
-        unavailable = Seat.objects.filter(
-            id__in=selected_Seats,
-            is_booked=True
-        )
+        with transaction.atomic():
+            locked_seats = Seat.objects.select_for_update().filter(
+                id__in=selected_Seats,
+                theatre=theatre
+            )
 
-        if unavailable.exists():
-            return render(request, 'movies/seat_selection.html',{
-                'theatre': theatre,
-                'seats': seats,
-                'error': 'Some selected seats are already booked.'
-            })
+            for seat in locked_seats:
+                if seat.is_booked or seat.is_reserved():
+                    return render(request, "movies/seat_selection.html",{
+                        'theatre': theatre,
+                        'seats': seats,
+                        'error': 'Some selected seats are already booked or reserved.'
+                    })
+
+
+            for seat in locked_seats:
+                seat.reserve(request.user)
         
         request.session['booking'] = {
             'theatre_id': theatre.id,
