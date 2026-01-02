@@ -1,0 +1,50 @@
+{% extends "users/basic.html" %} {% block content %}
+
+<div class="container mt-4">
+  <h2 class="mb-4">Admin Analytics Dashboard</h2>
+
+  <!-- KPIs -->
+  <div class="row mb-4">
+    <div class="col-md-4">
+      <div class="card p-3">
+        <h5>Total Revenue</h5>
+        <h3>₹{{ total_revenue }}</h3>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card p-3">
+        <h5>Total Bookings</h5>
+        <h3>{{ total_bookings }}</h3>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popular Movies -->
+  <div class="card mb-4 p-3">
+    <h5>🎬 Most Popular Movies</h5>
+    <ul>
+      {% for movie in popular_movies %}
+      <li>{{ movie.movie__name }} — {{ movie.total_bookings }} tickets</li>
+      {% empty %}
+      <li>No data</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <!-- Busiest Theatres -->
+  <div class="card p-3">
+    <h5>🏟️ Busiest Theatres</h5>
+    <ul>
+      {% for theatre in busiest_theatres %}
+      <li>
+        {{ theatre.theatre__name }} — {{ theatre.total_bookings }} tickets
+      </li>
+      {% empty %}
+      <li>No data</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+{% endblock %}
